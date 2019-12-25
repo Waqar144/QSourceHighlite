@@ -41,7 +41,23 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QComboBox" name="langComboBox"/>
+        <widget class="QComboBox" name="langComboBox">
+         <item>
+          <property name="text">
+           <string>C++</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>C</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Javascript</string>
+          </property>
+         </item>
+        </widget>
        </item>
       </layout>
      </widget>

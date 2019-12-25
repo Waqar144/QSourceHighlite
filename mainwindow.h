@@ -15,7 +15,24 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
+    enum Langs {
+        Cpp = 0,
+        C,
+        Javascript
+    };
+    Q_ENUM(Langs)
+
+
 private:
     Ui::MainWindow *ui;
+
+    /* FUNCTIONS */
+    static QString loadCppDemoCode();
+    static QString loadCDemoCode();
+
+private slots:
+    void languageChanged(int);
+
 };
 #endif // MAINWINDOW_H
