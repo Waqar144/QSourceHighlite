@@ -12,6 +12,10 @@ highlighter = new QSourceHighliter(plainTextEdit->document());
 highlighter->setCurrentLanguage(QSourceHighlighter::CodeCpp);
 ```
 
+# Themes
+
+Currently there is only one theme 'Monokai' apart from the one that is created during highlighter initialization. More themes will be added soon. You can add more themes in QSourceHighlighterThemes.
+
 ## Supported Languages
 
 Currently the following languages are supported (more being added):
