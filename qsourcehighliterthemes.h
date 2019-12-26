@@ -8,6 +8,7 @@ class QSourceHighliterTheme
 public:
     static QHash<QSourceHighliter::Language, QTextCharFormat> theme(QSourceHighliter::Themes);
 private:
+    static QHash<QSourceHighliter::Language, QTextCharFormat> formats();
     static QHash<QSourceHighliter::Language, QTextCharFormat> monokai();
 };
 
