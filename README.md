@@ -47,3 +47,7 @@ It has no dependency except Qt ofcourse. It should work with any Qt version > 5 
 ## Building
 
 Load the project into Qt Creator and click run. 
+
+## LICENSE
+
+It's licensed under GPL v3, but if you want me to change it for some reason let me know.
