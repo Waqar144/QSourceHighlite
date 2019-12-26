@@ -66,6 +66,9 @@ public:
     };
     Q_ENUM(Language)
 
+    void setCurrentLanguage(Language language);
+    Language currentLanguage();
+
 protected:
     void highlightBlock(const QString &text) override;
 
@@ -79,6 +82,7 @@ private:
     void initFormats();
 
     QHash<Language, QTextCharFormat> _formats;
+    Language _language;
 };
 
 #endif // QSOURCEHIGHLITER_H

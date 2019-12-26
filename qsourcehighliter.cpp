@@ -52,6 +52,16 @@ void QSourceHighliter::initFormats() {
     _formats[CodeBuiltIn] = format;
 }
 
+void QSourceHighliter::setCurrentLanguage(Language language) {
+    if (language != !_language)
+        _language = language;
+    setCurrentBlockState(language);
+}
+
+QSourceHighliter::Language QSourceHighliter::currentLanguage() {
+    return _language;
+}
+
 void QSourceHighliter::highlightBlock(const QString &text)
 {
     highlightSyntax(text);
