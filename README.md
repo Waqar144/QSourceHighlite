@@ -4,6 +4,10 @@ It started as an internal component of [qmarkdowntextedit](https://github.com/pb
 
 It doesn't use any regex because I want it to be fast. It can currently load a 100,000 lines of source code in ~0.4 seconds on my 4th Gen Intel Core i5 4300U.
 
+# Screenshot
+
+![Cpp](screenshot/syntax.png)
+
 # Usage
 
 Add the `.pri` file to your project. Then initialize it like this:
