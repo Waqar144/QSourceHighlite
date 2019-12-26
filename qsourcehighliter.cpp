@@ -4,12 +4,57 @@
 QSourceHighliter::QSourceHighliter(QTextDocument *doc)
     : QSyntaxHighlighter(doc)
 {
+    initFormats();
+}
 
+void QSourceHighliter::initFormats() {
+    /****************************************
+     * Formats for syntax highlighting
+     ***************************************/
+
+    QTextCharFormat format = QTextCharFormat();
+    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    _formats[CodeBlock] = format;
+
+    format = QTextCharFormat();
+    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    format.setForeground(QColor("#F92672"));
+    _formats[CodeKeyWord] = format;
+
+    format = QTextCharFormat();
+    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    format.setForeground(QColor("#a39b4e"));
+    _formats[CodeString] = format;
+
+    format = QTextCharFormat();
+    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    format.setForeground(QColor("#75715E"));
+    _formats[CodeComment] = format;
+
+    format = QTextCharFormat();
+    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    format.setForeground(QColor("#54aebf"));
+    _formats[CodeType] = format;
+
+    format = QTextCharFormat();
+    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    format.setForeground(QColor("#db8744"));
+    _formats[CodeOther] = format;
+
+    format = QTextCharFormat();
+    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    format.setForeground(QColor("#AE81FF"));
+    _formats[CodeNumLiteral] = format;
+
+    format = QTextCharFormat();
+    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+    format.setForeground(QColor("#018a0f"));
+    _formats[CodeBuiltIn] = format;
 }
 
 void QSourceHighliter::highlightBlock(const QString &text)
 {
-
+    highlightSyntax(text);
 }
 
 /**
@@ -490,7 +535,7 @@ void QSourceHighliter::cssHighlighter(const QString &text)
                         const QStringRef b = text.midRef(gPos+1, bPos - (gPos+1));
                         c.setRgb(r.toInt(), g.toInt(), b.toInt());
                     } else {
-                        c = _formats[HighlighterState::NoState].background().color();
+                        c = _formats[CodeBlock].background().color();
                     }
                 }
 

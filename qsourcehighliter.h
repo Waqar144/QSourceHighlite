@@ -20,6 +20,7 @@ public:
      * CodeCppComment = 201
      */
     enum Language {
+        //languages
         CodeCpp = 200,
         CodeCppComment = 201,
         CodeJs = 202,
@@ -50,7 +51,18 @@ public:
         CodeTypeScript = 232,
         CodeTypeScriptComment = 233,
         CodeYAML = 234,
-        CodeINI = 236
+        CodeINI = 236,
+
+
+        //code highlighting
+        CodeBlock = 999,
+        CodeKeyWord = 1000,
+        CodeString = 1001,
+        CodeComment = 1002,
+        CodeType = 1003,
+        CodeOther = 1004,
+        CodeNumLiteral = 1005,
+        CodeBuiltIn = 1006,
     };
     Q_ENUM(Language)
 
@@ -64,6 +76,9 @@ private:
     void cssHighlighter(const QString &text);
     void ymlHighlighter(const QString &text);
     void xmlHighlighter(const QString &text);
+    void initFormats();
+
+    QHash<Language, QTextCharFormat> _formats;
 };
 
 #endif // QSOURCEHIGHLITER_H
