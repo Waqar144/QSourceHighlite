@@ -30,15 +30,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
-    enum Langs {
-        Cpp = 0,
-        C,
-        Javascript
-    };
-    Q_ENUM(Langs)
-
-
 private:
     Ui::MainWindow *ui;
     QSourceHighliter *highlighter;
