@@ -395,6 +395,11 @@ int QSourceHighliter::highlightIntegerLiterals(const QString &text, int i)
         case ' ':
         case ',':
         case '=':
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+        case '%':
         case '<':
         case '>':
             isPreNum = true;
@@ -409,7 +414,8 @@ int QSourceHighliter::highlightIntegerLiterals(const QString &text, int i)
     }
 
     ++i;
-    if (text[i] == 'x') ++i;
+    //hex numbers highlighting (only if there's a preceding zero)
+    if (text[i] == 'x' && text[i-1] == '0') ++i;
 
     if (isPreNum) {
         while (i < text.length()) {
@@ -432,10 +438,24 @@ int QSourceHighliter::highlightIntegerLiterals(const QString &text, int i)
         case ' ':
         case ',':
         case '=':
+        case '+':
+        case '-':
+        case '*':
+        case '/':
+        case '%':
         case '>':
         case '<':
         case ';':
             isPostNum = true;
+            break;
+        case 'u':
+        case 'l':
+        case 'f':
+        case 'U':
+        case 'L':
+        case 'F':
+            isPostNum = true;
+            ++i;
             break;
         }
     }
