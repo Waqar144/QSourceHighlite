@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "qsourcehighliter.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -26,8 +28,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QSourceHighliter *highlighter;
 
-    /* FUNCTIONS */
+    /* STATIC FUNCTIONS */
+    void initComboBox();
+
+    /* STATIC FUNCTIONS */
     static QString loadCppDemoCode();
     static QString loadCDemoCode();
 
