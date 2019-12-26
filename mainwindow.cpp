@@ -50,6 +50,7 @@ void MainWindow::initComboBox() {
 
 void MainWindow::languageChanged(int) {
     QSourceHighliter::Language lang = (QSourceHighliter::Language)ui->langComboBox->currentData().toInt();
+    highlighter->setCurrentLanguage(lang);
     switch (lang) {
         case QSourceHighliter::CodeCpp:
             ui->plainTextEdit->setPlainText(loadCppDemoCode());

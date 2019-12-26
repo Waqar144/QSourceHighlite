@@ -1,6 +1,8 @@
 #include "qsourcehighliter.h"
 #include "languagedata.h"
 
+#include <QDebug>
+
 QSourceHighliter::QSourceHighliter(QTextDocument *doc)
     : QSyntaxHighlighter(doc)
 {
@@ -64,6 +66,7 @@ QSourceHighliter::Language QSourceHighliter::currentLanguage() {
 
 void QSourceHighliter::highlightBlock(const QString &text)
 {
+    setCurrentBlockState(_language);
     highlightSyntax(text);
 }
 
@@ -167,6 +170,8 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     default:
         break;
     }
+
+    qWarning () << currentBlockState();
 
     // keep the default code block format
     // this statement is very slow
