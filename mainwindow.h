@@ -40,9 +40,12 @@ private:
     /* STATIC FUNCTIONS */
     static QString loadCppDemoCode();
     static QString loadCDemoCode();
+    static QString loadGoDemoCode();
+    static QString loadYAMLDemoCode();
 
 private slots:
     void languageChanged(int);
+    void printDebug();
 
 };
 #endif // MAINWINDOW_H
