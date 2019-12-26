@@ -485,59 +485,71 @@ int QSourceHighliter::highlightIntegerLiterals(const QString &text, int i)
  * @details This function post processes a line after the main syntax
  * highlighter has run for additional highlighting. It does these things
  *
- * 1. Highlight all the words that have a colon after them as 'keyword' except:
+ * If the current line is a comment, skip it
+ *
+ * Highlight all the words that have a colon after them as 'keyword' except:
  * If the word is a string, skip it.
  * If the colon is in between a path, skip it (C:\)
  *
  * Once the colon is found, the function will skip every character except 'h'
  *
- * 2. If an h letter is found, check the next 4/5 letters for http/https and
+ * If an h letter is found, check the next 4/5 letters for http/https and
  * highlight them as a link (underlined)
  */
 void QSourceHighliter::ymlHighlighter(const QString &text) {
     if (text.isEmpty()) return;
     const auto textLen = text.length();
-    bool colonFound = false;
+    bool colonNotFound = false;
+
+    //if this is a comment don't do anything and just return
+    if (text.trimmed().at(0) == QChar('#')) return;
 
     for (int i = 0; i < textLen; ++i) {
-        if (!text[i].isLetter()) continue;
+        if (!text.at(i).isLetter()) continue;
 
-        if (colonFound && text.at(i) != 'h') continue;
+        if (colonNotFound && text.at(i) != QChar('h')) continue;
 
         //we found a string literal, skip it
-        if (text.at(i-1) == '"') {
-            int next = text.indexOf('"', i);
+        if (i != 0 && text.at(i-1) == QChar('"')) {
+            int next = text.indexOf(QChar('"'), i);
             i = next;
             continue;
         }
 
-        if (text.at(i-1) == '\'') {
-            int next = text.indexOf('"', i);
+        if (i != 0 && text.at(i-1) == QChar('\'')) {
+            int next = text.indexOf(QChar('\''), i);
             i = next;
             continue;
         }
 
 
-        int colon = text.indexOf(':', i);
+        int colon = text.indexOf(QChar(':'), i);
 
-        //if colon isn't found, we don't have anything more to do
-        if (colon == -1) return;
+        //if colon isn't found, we set this true
+        if (colon == -1) colonNotFound = true;
 
-        //colon is found, check if it isn't some path or something else
-        if (!colonFound && (colon+1 < textLen) && !(text[colon+1] == '\\')) {
-            colonFound = true;
-            setFormat(i, colon - i, _formats[CodeKeyWord]);
+        if (!colonNotFound) {
+            //if the line ends here, format and return
+            if (colon+1 == textLen) {
+                setFormat(i, colon - i, _formats[CodeKeyWord]);
+                return;
+            } else {
+                //colon is found, check if it isn't some path or something else
+                if (!(text.at(colon+1) == QChar('\\') && text.at(colon+1) == QChar('/'))) {
+                    setFormat(i, colon - i, _formats[CodeKeyWord]);
+                }
+            }
         }
 
         //underlined links
-        if (text[i] == 'h') {
-            if (text.midRef(i, 5) == QStringLiteral("https") ||
-                text.midRef(i, 4) == QStringLiteral("http")) {
+        if (text.at(i) == QChar('h')) {
+            if (text.midRef(i, 5) == "https" || text.midRef(i, 4) == "http") {
                 int space = text.indexOf(' ', i);
                 if (space == -1) space = textLen;
                 QTextCharFormat f = _formats[CodeString];
                 f.setUnderlineStyle(QTextCharFormat::SingleUnderline);
                 setFormat(i, space - i, f);
+                i = space;
             }
         }
     }
