@@ -21,6 +21,10 @@ class QSourceHighliter : public QSyntaxHighlighter
 public:
     explicit QSourceHighliter(QTextDocument *doc);
 
+    enum Themes {
+        Monokai = 1
+    };
+
     //languages
     /*********
      * When adding a language make sure that its value is a multiple of 2
