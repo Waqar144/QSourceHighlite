@@ -34,8 +34,10 @@ private:
     Ui::MainWindow *ui;
     QSourceHighliter *highlighter;
 
-    /* STATIC FUNCTIONS */
-    void initComboBox();
+    /* FUNCTIONS */
+    void initLangsComboBox();
+    void initThemesComboBox();
+
 
     /* STATIC FUNCTIONS */
     static QString loadCppDemoCode();
@@ -44,6 +46,7 @@ private:
     static QString loadYAMLDemoCode();
 
 private slots:
+    void themeChanged(int);
     void languageChanged(int);
     void printDebug();
 

@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    initComboBox();
+    initLangsComboBox();
+    initThemesComboBox();
 
     //set highlighter
     highlighter = new QSourceHighliter(ui->plainTextEdit->document());
@@ -34,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->langComboBox,
             static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged),
             this, &MainWindow::languageChanged);
+    connect(ui->themeComboBox,
+            static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged),
+            this, &MainWindow::themeChanged);
     connect(ui->plainTextEdit, &QPlainTextEdit::textChanged, this, &MainWindow::printDebug);
 }
 
@@ -42,7 +46,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::initComboBox() {
+void MainWindow::initThemesComboBox()
+{
+    ui->themeComboBox->addItem("Monokai", QSourceHighliter::Themes::Monokai);
+    ui->themeComboBox->addItem("debug", QSourceHighliter::Themes::Monokai);
+}
+
+void MainWindow::initLangsComboBox() {
     ui->langComboBox->addItem("C", QSourceHighliter::CodeC);
     ui->langComboBox->addItem("C++", QSourceHighliter::CodeCpp);
     ui->langComboBox->addItem("Javascript", QSourceHighliter::CodeJs);
@@ -60,6 +70,11 @@ void MainWindow::initComboBox() {
     ui->langComboBox->addItem("YAML", QSourceHighliter::CodeYAML);
     ui->langComboBox->addItem("XML", QSourceHighliter::CodeXML);
     ui->langComboBox->addItem("ini", QSourceHighliter::CodeINI);
+}
+
+void MainWindow::themeChanged(int) {
+    QSourceHighliter::Themes theme = (QSourceHighliter::Themes)ui->themeComboBox->currentData().toInt();
+    highlighter->setTheme(theme);
 }
 
 void MainWindow::languageChanged(int) {

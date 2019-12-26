@@ -85,6 +85,7 @@ public:
 
     void setCurrentLanguage(Language language);
     Language currentLanguage();
+    void setTheme(Themes theme);
 
 protected:
     void highlightBlock(const QString &text) override;

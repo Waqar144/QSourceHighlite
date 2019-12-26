@@ -13,6 +13,7 @@
  */
 #include "qsourcehighliter.h"
 #include "languagedata.h"
+#include "qsourcehighliterthemes.h"
 
 #include <QDebug>
 #include <QTextDocument>
@@ -75,6 +76,12 @@ void QSourceHighliter::setCurrentLanguage(Language language) {
 
 QSourceHighliter::Language QSourceHighliter::currentLanguage() {
     return _language;
+}
+
+void QSourceHighliter::setTheme(QSourceHighliter::Themes theme)
+{
+    _formats = QSourceHighliterTheme::theme(theme);
+    rehighlight();
 }
 
 void QSourceHighliter::highlightBlock(const QString &text)
