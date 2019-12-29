@@ -92,8 +92,31 @@ protected:
 
 private:
     void highlightSyntax(const QString &text);
-    int highlightIntegerLiterals(const QString &text, int i);
+    int highlightNumericLiterals(const QString &text, int i);
     int highlightStringLiterals(QChar strType, const QString &text, int i);
+
+    /**
+     * @brief returns true if c is octal
+     * @param c the char being checked
+     * @returns true if the number is octal, false otherwise
+     */
+    inline bool isOctal(const char c) {
+        return (c >= '0' && c <= '7');
+    }
+
+    /**
+     * @brief returns true if c is hex
+     * @param c the char being checked
+     * @returns true if the number is hex, false otherwise
+     */
+    inline bool isHex(const char c) {
+        return (
+            (c >= '0' && c <= '9') ||
+            (c >= 'a' && c <= 'f') ||
+            (c >= 'A' && c <= 'F')
+        );
+    }
+
     void cssHighlighter(const QString &text);
     void ymlHighlighter(const QString &text);
     void xmlHighlighter(const QString &text);

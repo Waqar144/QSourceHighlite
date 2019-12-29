@@ -27,10 +27,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     //set highlighter
     highlighter = new QSourceHighliter(ui->plainTextEdit->document());
-    highlighter->setCurrentLanguage(QSourceHighliter::CodeCpp);
+    highlighter->setCurrentLanguage(QSourceHighliter::CodeGo);
 
     //start with Cpp code
-    ui->plainTextEdit->setPlainText(loadCppDemoCode());
+    ui->plainTextEdit->setPlainText(loadGoDemoCode());
 
     connect(ui->langComboBox,
             static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged),
