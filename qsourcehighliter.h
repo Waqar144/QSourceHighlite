@@ -71,19 +71,22 @@ public:
         CodeTypeScriptComment = 233,
         CodeYAML = 234,
         CodeINI = 236,
-
-
-        //code highlighting
-        CodeBlock = 999,
-        CodeKeyWord = 1000,
-        CodeString = 1001,
-        CodeComment = 1002,
-        CodeType = 1003,
-        CodeOther = 1004,
-        CodeNumLiteral = 1005,
-        CodeBuiltIn = 1006,
+        CodeVex = 238,
+        CodeVexComment = 239,
     };
     Q_ENUM(Language)
+
+    enum Token {
+        CodeBlock,
+        CodeKeyWord,
+        CodeString,
+        CodeComment,
+        CodeType,
+        CodeOther,
+        CodeNumLiteral,
+        CodeBuiltIn,
+    };
+    Q_ENUM(Token)
 
     void setCurrentLanguage(Language language);
     Q_REQUIRED_RESULT Language currentLanguage();
@@ -124,7 +127,7 @@ private:
     void xmlHighlighter(const QString &text);
     void initFormats();
 
-    QHash<Language, QTextCharFormat> _formats;
+    QHash<Token, QTextCharFormat> _formats;
     Language _language;
 };
 }

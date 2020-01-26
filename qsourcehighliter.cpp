@@ -33,46 +33,46 @@ void QSourceHighliter::initFormats() {
 
     QTextCharFormat format = QTextCharFormat();
     format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
-    _formats[CodeBlock] = format;
+    _formats[Token::CodeBlock] = format;
 
     format = QTextCharFormat();
     format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#F92672"));
-    _formats[CodeKeyWord] = format;
+    _formats[Token::CodeKeyWord] = format;
 
     format = QTextCharFormat();
     format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#a39b4e"));
-    _formats[CodeString] = format;
+    _formats[Token::CodeString] = format;
 
     format = QTextCharFormat();
     format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#75715E"));
-    _formats[CodeComment] = format;
+    _formats[Token::CodeComment] = format;
 
     format = QTextCharFormat();
     format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#54aebf"));
-    _formats[CodeType] = format;
+    _formats[Token::CodeType] = format;
 
     format = QTextCharFormat();
     format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#db8744"));
-    _formats[CodeOther] = format;
+    _formats[Token::CodeOther] = format;
 
     format = QTextCharFormat();
     format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#AE81FF"));
-    _formats[CodeNumLiteral] = format;
+    _formats[Token::CodeNumLiteral] = format;
 
     format = QTextCharFormat();
     format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#018a0f"));
-    _formats[CodeBuiltIn] = format;
+    _formats[Token::CodeBuiltIn] = format;
 }
 
 void QSourceHighliter::setCurrentLanguage(Language language) {
-    if (language != !_language)
+    if (language != _language)
         _language = language;
 }
 
@@ -112,11 +112,11 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     bool isCSS = false;
     bool isYAML = false;
 
-    QMultiHash<char, QLatin1String> keywords{};
-    QMultiHash<char, QLatin1String> others{};
-    QMultiHash<char, QLatin1String> types{};
-    QMultiHash<char, QLatin1String> builtin{};
-    QMultiHash<char, QLatin1String> literals{};
+    LanguageData keywords{},
+                others{},
+                types{},
+                builtin{},
+                literals{};
 
     switch (currentBlockState()) {
         case CodeCpp :
@@ -193,6 +193,10 @@ void QSourceHighliter::highlightSyntax(const QString &text)
         case CodeINI:
             comment = QLatin1Char('#');
             break;
+        case CodeVex:
+        case CodeVexComment:
+            loadVEXData(types, keywords, builtin, literals, others);
+            break;
     default:
         break;
     }
@@ -203,7 +207,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     // applying it to the whole block in the beginning
     setFormat(0, textLen, _formats[CodeBlock]);
 
-    auto applyCodeFormat = [this](int i, const QMultiHash<char, QLatin1String> &data,
+    auto applyCodeFormat = [this](int i, const LanguageData &data,
                         const QString &text, const QTextCharFormat &fmt) -> int {
         // check if we are at the beginning OR if this is the start of a word
         // AND the current char is present in the data structure
@@ -340,12 +344,12 @@ void QSourceHighliter::highlightSyntax(const QString &text)
 
         //we were unable to find any match, lets skip this word
         if (pos == i) {
-            int cnt = i;
-            while (cnt < textLen) {
-                if (!text[cnt].isLetter()) break;
-                ++cnt;
+            int count = i;
+            while (count < textLen) {
+                if (!text[count].isLetter()) break;
+                ++count;
             }
-            i = cnt;
+            i = count;
         }
     }
 

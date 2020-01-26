@@ -8,10 +8,10 @@ namespace QSourceHighlite {
 class QSourceHighliterTheme
 {
 public:
-    static QHash<QSourceHighliter::Language, QTextCharFormat> theme(QSourceHighliter::Themes);
+    static QHash<QSourceHighliter::Token, QTextCharFormat> theme(QSourceHighliter::Themes);
 private:
-    static QHash<QSourceHighliter::Language, QTextCharFormat> formats();
-    static QHash<QSourceHighliter::Language, QTextCharFormat> monokai();
+    static QHash<QSourceHighliter::Token, QTextCharFormat> formats();
+    static QHash<QSourceHighliter::Token, QTextCharFormat> monokai();
 };
 }
 #endif // QSOURCEHIGHLITERTHEMES_H
