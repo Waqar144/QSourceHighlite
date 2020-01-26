@@ -86,7 +86,7 @@ public:
     Q_ENUM(Language)
 
     void setCurrentLanguage(Language language);
-    Language currentLanguage();
+    Q_REQUIRED_RESULT Language currentLanguage();
     void setTheme(Themes theme);
 
 protected:
@@ -94,15 +94,15 @@ protected:
 
 private:
     void highlightSyntax(const QString &text);
-    int highlightNumericLiterals(const QString &text, int i);
-    int highlightStringLiterals(QChar strType, const QString &text, int i);
+    Q_REQUIRED_RESULT int highlightNumericLiterals(const QString &text, int i);
+    Q_REQUIRED_RESULT int highlightStringLiterals(QChar strType, const QString &text, int i);
 
     /**
      * @brief returns true if c is octal
      * @param c the char being checked
      * @returns true if the number is octal, false otherwise
      */
-    inline bool isOctal(const char c) {
+    Q_REQUIRED_RESULT static constexpr inline bool isOctal(const char c) {
         return (c >= '0' && c <= '7');
     }
 
@@ -111,7 +111,7 @@ private:
      * @param c the char being checked
      * @returns true if the number is hex, false otherwise
      */
-    inline bool isHex(const char c) {
+    Q_REQUIRED_RESULT static constexpr inline bool isHex(const char c) {
         return (
             (c >= '0' && c <= '9') ||
             (c >= 'a' && c <= 'f') ||
