@@ -118,8 +118,6 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     QMultiHash<char, QLatin1String> builtin{};
     QMultiHash<char, QLatin1String> literals{};
 
-    QList<QLatin1String> wordList;
-
     switch (currentBlockState()) {
         case CodeCpp :
         case CodeCppComment :
@@ -205,17 +203,13 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     // applying it to the whole block in the beginning
     setFormat(0, textLen, _formats[CodeBlock]);
 
-    auto applyCodeFormat = [this, &wordList](int i, const QMultiHash<char, QLatin1String> &data,
+    auto applyCodeFormat = [this](int i, const QMultiHash<char, QLatin1String> &data,
                         const QString &text, const QTextCharFormat &fmt) -> int {
         // check if we are at the beginning OR if this is the start of a word
         // AND the current char is present in the data structure
         if ( ( i == 0 || !text[i-1].isLetter()) && data.contains(text[i].toLatin1())) {
-            wordList = data.values(text[i].toLatin1());
-#if QT_VERSION >= 0x050700
-            for(const QLatin1String &word : qAsConst(wordList)) {
-#else
+            const QList<QLatin1String> wordList = data.values(text[i].toLatin1());
             for(const QLatin1String &word : wordList) {
-#endif
                 if (word == text.midRef(i, word.size())) {
                     //check if we are at the end of text OR if we have a complete word
                     if ( i + word.size() == text.length() ||
@@ -330,12 +324,8 @@ void QSourceHighliter::highlightSyntax(const QString &text)
 
         /* Highlight other stuff (preprocessor etc.) */
         if (( i == 0 || !text[i-1].isLetter()) && others.contains(text[i].toLatin1())) {
-            wordList = others.values(text[i].toLatin1());
-#if QT_VERSION >= 0x050700
-            for(const QLatin1String &word : qAsConst(wordList)) {
-#else
+            const QList<QLatin1String> wordList = others.values(text[i].toLatin1());
             for(const QLatin1String &word : wordList) {
-#endif
                 if (word == text.midRef(i, word.size()).toLatin1()) {
                     if ( i + word.size() == textLen ||
                          !text.at(i + word.size()).isLetter()) {
