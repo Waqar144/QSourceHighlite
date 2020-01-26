@@ -365,14 +365,15 @@ int QSourceHighliter::highlightStringLiterals(QChar strType, const QString &text
     ++i;
 
     while (i < text.length()) {
+        //look for string end
         //make sure it's not an escape seq
-        if (text.at(i) == strType && text.at(i-1) != '\\') {
+        if (text.at(i) == strType && text.at(i-1) != QLatin1Char('\\')) {
             setFormat(i, 1,  _formats[CodeString]);
             ++i;
             break;
         }
         //look for escape sequence
-        if (text.at(i) == '\\' && (i+1) < text.length()) {
+        if (text.at(i) == QLatin1Char('\\') && (i+1) < text.length()) {
             int len = 0;
             switch(text.at(i+1).toLatin1()) {
             case 'a':
