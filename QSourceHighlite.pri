@@ -5,4 +5,5 @@ HEADERS += qsourcehighliter.h \
            languagedata.h
 
 SOURCES += qsourcehighliter.cpp \
+    $$PWD/languagedata.cpp \
     $$PWD/qsourcehighliterthemes.cpp

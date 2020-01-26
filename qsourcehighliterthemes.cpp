@@ -1,5 +1,6 @@
 #include "qsourcehighliterthemes.h"
 
+namespace QSourceHighlite {
 
 QHash<QSourceHighliter::Language, QTextCharFormat>
         QSourceHighliterTheme::theme(QSourceHighliter::Themes theme) {
@@ -42,4 +43,6 @@ QHash<QSourceHighliter::Language, QTextCharFormat> QSourceHighliterTheme::monoka
     _formats[QSourceHighliter::CodeBuiltIn].setForeground(QColor(166, 226, 46));
 
     return _formats;
+}
+
 }

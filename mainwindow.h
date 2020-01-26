@@ -16,7 +16,9 @@
 
 #include <QMainWindow>
 
-#include "qsourcehighliter.h"
+namespace QSourceHighlite {
+    class QSourceHighliter;
+}
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,7 +34,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QSourceHighliter *highlighter;
+    QSourceHighlite::QSourceHighliter *highlighter;
 
     /* FUNCTIONS */
     void initLangsComboBox();

@@ -16,6 +16,8 @@
 
 #include <QSyntaxHighlighter>
 
+namespace QSourceHighlite {
+
 class QSourceHighliter : public QSyntaxHighlighter
 {
 public:
@@ -125,5 +127,5 @@ private:
     QHash<Language, QTextCharFormat> _formats;
     Language _language;
 };
-
+}
 #endif // QSOURCEHIGHLITER_H

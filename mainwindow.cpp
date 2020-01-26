@@ -13,8 +13,11 @@
  */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "qsourcehighliter.h"
 
 #include <QDebug>
+
+using namespace QSourceHighlite;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

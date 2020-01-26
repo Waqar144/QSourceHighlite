@@ -18,6 +18,8 @@
 #include <QDebug>
 #include <QTextDocument>
 
+namespace QSourceHighlite {
+
 QSourceHighliter::QSourceHighliter(QTextDocument *doc)
     : QSyntaxHighlighter(doc)
 {
@@ -760,4 +762,5 @@ void QSourceHighliter::xmlHighlighter(const QString &text) {
             setFormat(pos, cnt, _formats[CodeString]);
         }
     }
+}
 }
