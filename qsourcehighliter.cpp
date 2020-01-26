@@ -213,14 +213,15 @@ void QSourceHighliter::highlightSyntax(const QString &text)
         // AND the current char is present in the data structure
         if ( ( i == 0 || !text[i-1].isLetter()) && data.contains(text[i].toLatin1())) {
             const QList<QLatin1String> wordList = data.values(text[i].toLatin1());
-            for(const QLatin1String &word : wordList) {
-                if (word == text.midRef(i, word.size())) {
-                    //check if we are at the end of text OR if we have a complete word
-                    if ( i + word.size() == text.length() ||
-                         !text.at(i + word.size()).isLetter()) {
-                        setFormat(i, word.size(), fmt);
-                        i += word.size();
-                    }
+            for (const QLatin1String &word : wordList) {
+                if (word == text.midRef(i, word.size()) // we have a word match
+                        &&
+                        (i + word.size() == text.length() // check if we are at the end
+                         ||
+                         !text.at(i + word.size()).isLetter()) //OR if we have a complete word
+                        ) {
+                    setFormat(i, word.size(), fmt);
+                    i += word.size();
                 }
             }
         }
@@ -234,7 +235,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     const QTextCharFormat &formatBuiltIn = _formats[CodeBuiltIn];
     const QTextCharFormat &formatOther = _formats[CodeOther];
 
-    for (int i=0; i< textLen; ++i) {
+    for (int i = 0; i < textLen; ++i) {
 
         if (currentBlockState() % 2 != 0) goto Comment;
 
@@ -296,7 +297,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
             ++i;
         }
 
-        int pos = i;
+        const int pos = i;
 
         if (i == textLen || !text[i].isLetter()) continue;
 
@@ -327,17 +328,19 @@ void QSourceHighliter::highlightSyntax(const QString &text)
         if (i == textLen || !text[i].isLetter()) continue;
 
         /* Highlight other stuff (preprocessor etc.) */
-        if (( i == 0 || !text[i-1].isLetter()) && others.contains(text[i].toLatin1())) {
+        if (( i == 0 || !text.at(i-1).isLetter()) && others.contains(text[i].toLatin1())) {
             const QList<QLatin1String> wordList = others.values(text[i].toLatin1());
             for(const QLatin1String &word : wordList) {
-                if (word == text.midRef(i, word.size()).toLatin1()) {
-                    if ( i + word.size() == textLen ||
-                         !text.at(i + word.size()).isLetter()) {
-                        currentBlockState() == CodeCpp ?
-                        setFormat(i-1, word.size()+1, formatOther) :
-                                    setFormat(i, word.size(), formatOther);
-                        i += word.size();
-                    }
+                if (word == text.midRef(i, word.size()) // we have a word match
+                        &&
+                        (i + word.size() == text.length() // check if we are at the end
+                         ||
+                         !text.at(i + word.size()).isLetter()) //OR if we have a complete word
+                        ) {
+                    currentBlockState() == CodeCpp ?
+                                setFormat(i - 1, word.size() + 1, formatOther) :
+                                setFormat(i, word.size(), formatOther);
+                    i += word.size();
                 }
             }
         }
@@ -364,7 +367,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
  * @param i pos of i in loop
  * @return pos of i after the string
  */
-int QSourceHighliter::highlightStringLiterals(QChar strType, const QString &text, int i) {
+int QSourceHighliter::highlightStringLiterals(const QChar strType, const QString &text, int i) {
     setFormat(i, 1,  _formats[CodeString]);
     ++i;
 
@@ -497,7 +500,7 @@ int QSourceHighliter::highlightNumericLiterals(const QString &text, int i)
 
     if (!isPreAllowed) return i;
 
-    int start = i;
+    const int start = i;
 
     if ((i+1) >= text.length()) {
         setFormat(i, 1, _formats[CodeNumLiteral]);
@@ -599,30 +602,23 @@ void QSourceHighliter::ymlHighlighter(const QString &text) {
     bool colonNotFound = false;
 
     //if this is a comment don't do anything and just return
-    if (text.trimmed().at(0) == QChar('#')) return;
+    if (text.trimmed().at(0) == QLatin1Char('#'))
+        return;
 
     for (int i = 0; i < textLen; ++i) {
         if (!text.at(i).isLetter()) continue;
 
-        if (colonNotFound && text.at(i) != QChar('h')) continue;
+        if (colonNotFound && text.at(i) != QLatin1Char('h')) continue;
 
         //we found a string literal, skip it
-        if (i != 0 && text.at(i-1) == QChar('"')) {
-            int next = text.indexOf(QChar('"'), i);
+        if (i != 0 && (text.at(i-1) == QLatin1Char('"') || text.at(i-1) == QLatin1Char('\''))) {
+            const int next = text.indexOf(text.at(i-1), i);
             if (next == -1) break;
             i = next;
             continue;
         }
 
-        if (i != 0 && text.at(i-1) == QChar('\'')) {
-            int next = text.indexOf(QChar('\''), i);
-            if (next == -1) break;
-            i = next;
-            continue;
-        }
-
-
-        int colon = text.indexOf(QChar(':'), i);
+        const int colon = text.indexOf(QLatin1Char(':'), i);
 
         //if colon isn't found, we set this true
         if (colon == -1) colonNotFound = true;
@@ -634,14 +630,14 @@ void QSourceHighliter::ymlHighlighter(const QString &text) {
                 return;
             } else {
                 //colon is found, check if it isn't some path or something else
-                if (!(text.at(colon+1) == QChar('\\') && text.at(colon+1) == QChar('/'))) {
+                if (!(text.at(colon+1) == QLatin1Char('\\') && text.at(colon+1) == QLatin1Char('/'))) {
                     setFormat(i, colon - i, _formats[CodeKeyWord]);
                 }
             }
         }
 
         //underlined links
-        if (text.at(i) == QChar('h')) {
+        if (text.at(i) == QLatin1Char('h')) {
             if (text.midRef(i, 5) == QLatin1String("https") ||
                     text.midRef(i, 4) == QLatin1String("http")) {
                 int space = text.indexOf(QChar(' '), i);
@@ -685,14 +681,14 @@ void QSourceHighliter::cssHighlighter(const QString &text)
                 }
                 int semicolon = text.indexOf(QLatin1Char(';'));
                 if (semicolon < 0) semicolon = textLen;
-                QString color = text.mid(i, semicolon-i);
+                const QString color = text.mid(i, semicolon-i);
                 QTextCharFormat f = _formats[CodeBlock];
                 QColor c(color);
                 if (color.startsWith(QLatin1String("rgb"))) {
-                    int t = text.indexOf('(', i);
-                    int rPos = text.indexOf(',', t);
-                    int gPos = text.indexOf(',', rPos+1);
-                    int bPos = text.indexOf(')', gPos);
+                    int t = text.indexOf(QLatin1Char('('), i);
+                    int rPos = text.indexOf(QLatin1Char(','), t);
+                    int gPos = text.indexOf(QLatin1Char(','), rPos+1);
+                    int bPos = text.indexOf(QLatin1Char(')'), gPos);
                     if (rPos > -1 && gPos > -1 && bPos > -1) {
                         const QStringRef r = text.midRef(t+1, rPos - (t+1));
                         const QStringRef g = text.midRef(rPos+1, gPos - (rPos + 1));
@@ -747,7 +743,7 @@ void QSourceHighliter::xmlHighlighter(const QString &text) {
     for (int i = 0; i < textLen; ++i) {
         if (text[i] == QLatin1Char('<') && text[i+1] != QLatin1Char('!')) {
 
-            int found = text.indexOf(QLatin1Char('>'), i);
+            const int found = text.indexOf(QLatin1Char('>'), i);
             if (found > 0) {
                 ++i;
                 if (text[i] == QLatin1Char('/')) ++i;
@@ -764,7 +760,7 @@ void QSourceHighliter::xmlHighlighter(const QString &text) {
         }
 
         if (text[i] == QLatin1Char('\"')) {
-            int pos = i;
+            const int pos = i;
             int cnt = 1;
             ++i;
             //bound check

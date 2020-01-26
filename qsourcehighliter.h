@@ -98,7 +98,7 @@ protected:
 private:
     void highlightSyntax(const QString &text);
     Q_REQUIRED_RESULT int highlightNumericLiterals(const QString &text, int i);
-    Q_REQUIRED_RESULT int highlightStringLiterals(QChar strType, const QString &text, int i);
+    Q_REQUIRED_RESULT int highlightStringLiterals(const QChar strType, const QString &text, int i);
 
     /**
      * @brief returns true if c is octal
