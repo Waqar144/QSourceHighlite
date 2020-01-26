@@ -21,7 +21,8 @@
 namespace QSourceHighlite {
 
 QSourceHighliter::QSourceHighliter(QTextDocument *doc)
-    : QSyntaxHighlighter(doc)
+    : QSyntaxHighlighter(doc),
+      _language(CodeC)
 {
     initFormats();
 }

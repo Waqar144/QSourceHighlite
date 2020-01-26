@@ -43,6 +43,7 @@ Currently the following languages are supported (more being added):
 - V lang
 - XML
 - YAML
+- Houdini Vex
 
 ## Adding more languages
 
