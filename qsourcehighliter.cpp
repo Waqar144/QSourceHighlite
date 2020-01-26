@@ -589,12 +589,14 @@ void QSourceHighliter::ymlHighlighter(const QString &text) {
         //we found a string literal, skip it
         if (i != 0 && text.at(i-1) == QChar('"')) {
             int next = text.indexOf(QChar('"'), i);
+            if (next == -1) break;
             i = next;
             continue;
         }
 
         if (i != 0 && text.at(i-1) == QChar('\'')) {
             int next = text.indexOf(QChar('\''), i);
+            if (next == -1) break;
             i = next;
             continue;
         }
@@ -620,8 +622,9 @@ void QSourceHighliter::ymlHighlighter(const QString &text) {
 
         //underlined links
         if (text.at(i) == QChar('h')) {
-            if (text.midRef(i, 5) == "https" || text.midRef(i, 4) == "http") {
-                int space = text.indexOf(' ', i);
+            if (text.midRef(i, 5) == QLatin1String("https") ||
+                    text.midRef(i, 4) == QLatin1String("http")) {
+                int space = text.indexOf(QChar(' '), i);
                 if (space == -1) space = textLen;
                 QTextCharFormat f = _formats[CodeString];
                 f.setUnderlineStyle(QTextCharFormat::SingleUnderline);
