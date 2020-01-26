@@ -477,6 +477,11 @@ int QSourceHighliter::highlightNumericLiterals(const QString &text, int i)
     else {
         //these values are allowed before a number
         switch(text.at(i - 1).toLatin1()) {
+        //css number
+        case ':':
+            if (currentBlockState() == CodeCSS)
+                isPreAllowed = true;
+            break;
         case '[':
         case '(':
         case '{':
@@ -495,7 +500,7 @@ int QSourceHighliter::highlightNumericLiterals(const QString &text, int i)
         }
     }
 
-    if (!isPreAllowed) return ++i;
+    if (!isPreAllowed) return i;
 
     int start = i;
 
@@ -510,17 +515,20 @@ int QSourceHighliter::highlightNumericLiterals(const QString &text, int i)
         ++i;
 
     while (i < text.length()) {
-        if (!text.at(i).isNumber() && text.at(i) != QChar('.')) break;
+        if (!text.at(i).isNumber() && text.at(i) != QChar('.') &&
+             text.at(i) != QChar('e')) //exponent
+            break;
         ++i;
     }
 
-    i--;
-
     bool isPostAllowed = false;
-    if (i+1 == text.length()) isPostAllowed = true;
-    else {
+    if (i == text.length()) {
+        //cant have e at the end
+        if (text.at(i - 1) != QChar('e'))
+            isPostAllowed = true;
+    } else {
         //these values are allowed after a number
-        switch(text.at(i + 1).toLatin1()) {
+        switch(text.at(i).toLatin1()) {
         case ']':
         case ')':
         case '}':
@@ -538,22 +546,39 @@ int QSourceHighliter::highlightNumericLiterals(const QString &text, int i)
             isPostAllowed = true;
             break;
         // for 100u, 1.0F
+        case 'p':
+            if (currentBlockState() == CodeCSS)
+                if (i + 1 < text.length() && text.at(i+1) == QChar('x')) {
+                    if (i + 2 == text.length() || !text.at(i+2).isLetterOrNumber())
+                    isPostAllowed = true;
+                }
+            break;
+        case 'e':
+            if (currentBlockState() == CodeCSS)
+                if (i + 1 < text.length() && text.at(i+1) == QChar('m')) {
+                    if (i + 2 == text.length() || !text.at(i+2).isLetterOrNumber())
+                    isPostAllowed = true;
+                }
+            break;
         case 'u':
         case 'l':
         case 'f':
         case 'U':
         case 'L':
         case 'F':
-            isPostAllowed = true;
-            ++i;
+            if (i + 1 == text.length() || !text.at(i+1).isLetterOrNumber()) {
+                isPostAllowed = true;
+                ++i;
+            }
             break;
         }
     }
     if (isPostAllowed) {
-        int end = ++i;
+        int end = i;
         setFormat(start, end - start, _formats[CodeNumLiteral]);
     }
-    return i;
+    //decrement so that the index is at the last number, not after it
+    return --i;
 }
 
 /**
