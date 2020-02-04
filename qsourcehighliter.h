@@ -127,6 +127,7 @@ private:
     void cssHighlighter(const QString &text);
     void ymlHighlighter(const QString &text);
     void xmlHighlighter(const QString &text);
+    void makeHighlighter(const QString &text);
     void initFormats();
 
     QHash<Token, QTextCharFormat> _formats;

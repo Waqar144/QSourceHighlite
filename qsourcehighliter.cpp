@@ -96,6 +96,7 @@ void QSourceHighliter::highlightBlock(const QString &text)
                     setCurrentBlockState(_language) :
                     setCurrentBlockState(_language + 1);
     }
+
     highlightSyntax(text);
 }
 
@@ -112,6 +113,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     QChar comment;
     bool isCSS = false;
     bool isYAML = false;
+    bool isMake = false;
 
     LanguageData keywords{},
                 others{},
@@ -203,6 +205,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
             comment = QLatin1Char('#');
             break;
         case CodeMake:
+            isMake = true;
             loadMakeData(types, keywords, builtin, literals, others);
             comment = QLatin1Char('#');
             break;
@@ -367,6 +370,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
 
     if (isCSS) cssHighlighter(text);
     if (isYAML) ymlHighlighter(text);
+    if (isMake) makeHighlighter(text);
 }
 
 /**
@@ -791,4 +795,13 @@ void QSourceHighliter::xmlHighlighter(const QString &text) {
         }
     }
 }
+
+void QSourceHighliter::makeHighlighter(const QString &text)
+{
+    int colonPos = text.indexOf(QLatin1Char(':'));
+    if (colonPos == -1)
+        return;
+    setFormat(0, colonPos, _formats[Token::CodeBuiltIn]);
+}
+
 }
