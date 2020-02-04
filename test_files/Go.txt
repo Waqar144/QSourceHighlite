@@ -1,0 +1,26 @@
+package main
+
+import (
+	"net/http"
+)
+
+/**
+ * @brief main
+ */
+func main() {
+	fmt.print("hello")	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	// Parse and handle flags
+	flags := flags.NewFlags()
+	flags.Parse()
+
+	// Build the application
+	tviewApp = tview.NewApplication()
+	wtfApp := app.NewWtfApp(tviewApp, config, flags.Config)
+	wtfApp.Start()
+
+	if err := tviewApp.Run(); err != nil {
+		fmt.Printf("\n%s %v\n", aurora.Red("ERROR"), err)
+		os.Exit(1)
+	}
+}

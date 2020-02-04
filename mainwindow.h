@@ -39,17 +39,9 @@ private:
     void initLangsComboBox();
     void initThemesComboBox();
 
-
-    /* STATIC FUNCTIONS */
-    static QString loadCppDemoCode();
-    static QString loadCDemoCode();
-    static QString loadGoDemoCode();
-    static QString loadYAMLDemoCode();
-
 private slots:
     void themeChanged(int);
     void languageChanged(const QString &lang);
-    void printDebug();
 
 };
 #endif // MAINWINDOW_H

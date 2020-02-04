@@ -1,0 +1,34 @@
+url: http://google.com/google
+bcd: "hello"
+asd: 123
+for: true
+
+# Crowdin configuration file
+# see: https://support.crowdin.com/configuration-file/
+#
+# you will need the Java CLI client
+# see: https://support.crowdin.com/cli-tool/
+
+project_identifier: abc
+
+# the api key has to be provided by ~/.crowdin.yaml
+#api_key: XXXX
+
+files:
+  - file
+    # source files filter
+    # where translations live
+    #"languages_mapping" : {
+      #"two_letters_code" : {
+        #"pt" : "pt_PT",
+        #"pt-BR" : "pt_BR"
+      #}
+    #}
+    "languages_mapping" : {
+      "locale_with_underscore" : {
+        "ar_SA" : "ar",
+        "ca_ES" : "ca",
+        "cs_CZ" : "cs",
+        "de_DE" : "de",
+      }
+    }
