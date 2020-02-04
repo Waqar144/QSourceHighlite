@@ -73,7 +73,6 @@ void MainWindow::initLangsEnum()
         {QLatin1String("Python"),      QSourceHighliter::CodePython},
         {QLatin1String("Qml"),         QSourceHighliter::CodeQML},
         {QLatin1String("Rust"),        QSourceHighliter::CodeRust},
-        {QLatin1String("Sh"),          QSourceHighliter::CodeBash},
         {QLatin1String("Sql"),         QSourceHighliter::CodeSQL},
         {QLatin1String("Typescript"),  QSourceHighliter::CodeTypeScript},
         {QLatin1String("V"),           QSourceHighliter::CodeV},
@@ -93,23 +92,25 @@ void MainWindow::initLangsComboBox() {
     ui->langComboBox->addItem("Bash");
     ui->langComboBox->addItem("C");
     ui->langComboBox->addItem("C++");
-    ui->langComboBox->addItem("CSharp");
     ui->langComboBox->addItem("CMake");
-    ui->langComboBox->addItem("Javascript");
-    ui->langComboBox->addItem("Java");
-    ui->langComboBox->addItem("Rust");
+    ui->langComboBox->addItem("CSharp");
+    ui->langComboBox->addItem("Css");
     ui->langComboBox->addItem("Go");
     ui->langComboBox->addItem("Html");
-    ui->langComboBox->addItem("Php");
-    ui->langComboBox->addItem("Make");
-    ui->langComboBox->addItem("Python");
-    ui->langComboBox->addItem("V");
-    ui->langComboBox->addItem("Sql");
-    ui->langComboBox->addItem("Qml");
-    ui->langComboBox->addItem("Typescript");
-    ui->langComboBox->addItem("Yaml");
-    ui->langComboBox->addItem("Xml");
     ui->langComboBox->addItem("Ini");
+    ui->langComboBox->addItem("Javascript");
+    ui->langComboBox->addItem("Java");
+    ui->langComboBox->addItem("Make");
+    ui->langComboBox->addItem("Php");
+    ui->langComboBox->addItem("Python");
+    ui->langComboBox->addItem("Qml");
+    ui->langComboBox->addItem("Rust");
+    ui->langComboBox->addItem("Sql");
+    ui->langComboBox->addItem("Typescript");
+    ui->langComboBox->addItem("V");
+    ui->langComboBox->addItem("Vex");
+    ui->langComboBox->addItem("Xml");
+    ui->langComboBox->addItem("Yaml");
 }
 
 void MainWindow::themeChanged(int) {
