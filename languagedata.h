@@ -168,12 +168,22 @@ void loadYAMLData(LanguageData &types,
              LanguageData &other);
 
 /********************************************************/
-/***   YAML DATA  ***************************************/
+/***   VEX DATA   ***************************************/
 /********************************************************/
 void loadVEXData(LanguageData &types,
              LanguageData &keywords,
              LanguageData &builtin,
              LanguageData &literals,
              LanguageData &other);
+
+/********************************************************/
+/***   CMake DATA  **************************************/
+/********************************************************/
+void loadCMakeData(QMultiHash<char, QLatin1String> &types,
+             QMultiHash<char, QLatin1String> &keywords,
+             QMultiHash<char, QLatin1String> &builtin,
+             QMultiHash<char, QLatin1String> &literals,
+             QMultiHash<char, QLatin1String> &other);
+
 }
 #endif
