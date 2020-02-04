@@ -27,6 +27,7 @@ Currently the following languages are supported (more being added):
 - C
 - C++
 - C#
+- CMake
 - CSS
 - Go
 - Html
@@ -34,6 +35,7 @@ Currently the following languages are supported (more being added):
 - Java
 - Javascript
 - JSON
+- Make
 - PHP
 - Python
 - QML
