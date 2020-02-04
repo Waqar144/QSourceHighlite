@@ -198,6 +198,14 @@ void QSourceHighliter::highlightSyntax(const QString &text)
         case CodeVexComment:
             loadVEXData(types, keywords, builtin, literals, others);
             break;
+        case CodeCMake:
+            loadCMakeData(types, keywords, builtin, literals, others);
+            comment = QLatin1Char('#');
+            break;
+        case CodeMake:
+            loadMakeData(types, keywords, builtin, literals, others);
+            comment = QLatin1Char('#');
+            break;
     default:
         break;
     }

@@ -73,6 +73,8 @@ public:
         CodeINI = 236,
         CodeVex = 238,
         CodeVexComment = 239,
+        CodeCMake = 240,
+        CodeMake = 242
     };
     Q_ENUM(Language)
 
