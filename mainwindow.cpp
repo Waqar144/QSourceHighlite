@@ -16,6 +16,7 @@
 #include "qsourcehighliter.h"
 
 #include <QDebug>
+#include <QDir>
 
 using namespace QSourceHighlite;
 
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    initLangsEnum();
     initLangsComboBox();
     initThemesComboBox();
 
@@ -36,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->plainTextEdit->setPlainText(loadGoDemoCode());
 
     connect(ui->langComboBox,
-            static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged),
+            static_cast<void (QComboBox::*) (const QString&)>(&QComboBox::currentIndexChanged),
             this, &MainWindow::languageChanged);
     connect(ui->themeComboBox,
             static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged),
@@ -49,6 +51,38 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::initLangsEnum()
+{
+    using namespace QSourceHighlite;
+    MainWindow::_langStringToEnum =
+            QHash<QString, QSourceHighliter::Language> {
+        {QLatin1String("Bash"),        QSourceHighliter::CodeBash},
+        {QLatin1String("C"),           QSourceHighliter::CodeC},
+        {QLatin1String("C++"),         QSourceHighliter::CodeCpp},
+        {QLatin1String("CMake"),       QSourceHighliter::CodeCMake},
+        {QLatin1String("CSharp"),      QSourceHighliter::CodeCSharp},
+        {QLatin1String("Css"),         QSourceHighliter::CodeCSS},
+        {QLatin1String("Go"),          QSourceHighliter::CodeCSharp},
+        {QLatin1String("Html"),        QSourceHighliter::CodeXML},
+        {QLatin1String("Ini"),         QSourceHighliter::CodeINI},
+        {QLatin1String("Java"),        QSourceHighliter::CodeJava},
+        {QLatin1String("Javascript"),  QSourceHighliter::CodeJava},
+        {QLatin1String("Json"),        QSourceHighliter::CodeJSON},
+        {QLatin1String("Make"),        QSourceHighliter::CodeMake},
+        {QLatin1String("Php"),         QSourceHighliter::CodePHP},
+        {QLatin1String("Python"),      QSourceHighliter::CodePython},
+        {QLatin1String("Qml"),         QSourceHighliter::CodeQML},
+        {QLatin1String("Rust"),        QSourceHighliter::CodeRust},
+        {QLatin1String("Sh"),          QSourceHighliter::CodeBash},
+        {QLatin1String("Sql"),         QSourceHighliter::CodeSQL},
+        {QLatin1String("Typescript"),  QSourceHighliter::CodeTypeScript},
+        {QLatin1String("V"),           QSourceHighliter::CodeV},
+        {QLatin1String("Vex"),         QSourceHighliter::CodeVex},
+        {QLatin1String("Xml"),         QSourceHighliter::CodeXML},
+        {QLatin1String("Yaml"),        QSourceHighliter::CodeYAML}
+    };
+}
+
 void MainWindow::initThemesComboBox()
 {
     ui->themeComboBox->addItem("Monokai", QSourceHighliter::Themes::Monokai);
@@ -56,23 +90,26 @@ void MainWindow::initThemesComboBox()
 }
 
 void MainWindow::initLangsComboBox() {
-    ui->langComboBox->addItem("C", QSourceHighliter::CodeC);
-    ui->langComboBox->addItem("C++", QSourceHighliter::CodeCpp);
-    ui->langComboBox->addItem("Javascript", QSourceHighliter::CodeJs);
-    ui->langComboBox->addItem("Java", QSourceHighliter::CodeJava);
-    ui->langComboBox->addItem("C Sharp", QSourceHighliter::CodeCSharp);
-    ui->langComboBox->addItem("Rust", QSourceHighliter::CodeRust);
-    ui->langComboBox->addItem("Go", QSourceHighliter::CodeGo);
-    ui->langComboBox->addItem("Bash", QSourceHighliter::CodeBash);
-    ui->langComboBox->addItem("PHP", QSourceHighliter::CodePHP);
-    ui->langComboBox->addItem("Python", QSourceHighliter::CodePython);
-    ui->langComboBox->addItem("V lang", QSourceHighliter::CodeV);
-    ui->langComboBox->addItem("SQL", QSourceHighliter::CodeSQL);
-    ui->langComboBox->addItem("QML", QSourceHighliter::CodeQML);
-    ui->langComboBox->addItem("Typescript", QSourceHighliter::CodeTypeScript);
-    ui->langComboBox->addItem("YAML", QSourceHighliter::CodeYAML);
-    ui->langComboBox->addItem("XML", QSourceHighliter::CodeXML);
-    ui->langComboBox->addItem("ini", QSourceHighliter::CodeINI);
+    ui->langComboBox->addItem("Bash");
+    ui->langComboBox->addItem("C");
+    ui->langComboBox->addItem("C++");
+    ui->langComboBox->addItem("CSharp");
+    ui->langComboBox->addItem("CMake");
+    ui->langComboBox->addItem("Javascript");
+    ui->langComboBox->addItem("Java");
+    ui->langComboBox->addItem("Rust");
+    ui->langComboBox->addItem("Go");
+    ui->langComboBox->addItem("Html");
+    ui->langComboBox->addItem("Php");
+    ui->langComboBox->addItem("Make");
+    ui->langComboBox->addItem("Python");
+    ui->langComboBox->addItem("V");
+    ui->langComboBox->addItem("Sql");
+    ui->langComboBox->addItem("Qml");
+    ui->langComboBox->addItem("Typescript");
+    ui->langComboBox->addItem("Yaml");
+    ui->langComboBox->addItem("Xml");
+    ui->langComboBox->addItem("Ini");
 }
 
 void MainWindow::themeChanged(int) {
@@ -80,25 +117,14 @@ void MainWindow::themeChanged(int) {
     highlighter->setTheme(theme);
 }
 
-void MainWindow::languageChanged(int) {
-    QSourceHighliter::Language lang = (QSourceHighliter::Language)ui->langComboBox->currentData().toInt();
-    highlighter->setCurrentLanguage(lang);
-    switch (lang) {
-    case QSourceHighliter::CodeCpp:
-        ui->plainTextEdit->setPlainText(loadCppDemoCode());
-        break;
-    case QSourceHighliter::CodeC:
-        ui->plainTextEdit->setPlainText(loadCDemoCode());
-        break;
-    case QSourceHighliter::CodeGo:
-        ui->plainTextEdit->setPlainText(loadGoDemoCode());
-        break;
-    case QSourceHighliter::CodeYAML:
-        ui->plainTextEdit->setPlainText(loadYAMLDemoCode());
-        break;
-    default:
-        break;
+void MainWindow::languageChanged(const QString &lang) {
+    QFile f(QDir::currentPath() + "/../test_files/" + lang + ".txt");
+    if (f.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        const auto text = f.readAll();
+        ui->plainTextEdit->setPlainText(QString::fromUtf8(text));
+        highlighter->setCurrentLanguage(_langStringToEnum.value(lang));
     }
+    f.close();
 }
 
 void MainWindow::printDebug() {

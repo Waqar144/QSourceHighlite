@@ -15,10 +15,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-namespace QSourceHighlite {
-    class QSourceHighliter;
-}
+#include <qsourcehighliter.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,8 +32,10 @@ public:
 private:
     Ui::MainWindow *ui;
     QSourceHighlite::QSourceHighliter *highlighter;
+    static QHash<QString, QSourceHighlite::QSourceHighliter::Language> _langStringToEnum;
 
     /* FUNCTIONS */
+    void initLangsEnum();
     void initLangsComboBox();
     void initThemesComboBox();
 
@@ -49,7 +48,7 @@ private:
 
 private slots:
     void themeChanged(int);
-    void languageChanged(int);
+    void languageChanged(const QString &lang);
     void printDebug();
 
 };
