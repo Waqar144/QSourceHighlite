@@ -61,7 +61,7 @@ void MainWindow::initLangsEnum()
         {QLatin1String("CMake"),       QSourceHighliter::CodeCMake},
         {QLatin1String("CSharp"),      QSourceHighliter::CodeCSharp},
         {QLatin1String("Css"),         QSourceHighliter::CodeCSS},
-        {QLatin1String("Go"),          QSourceHighliter::CodeCSharp},
+        {QLatin1String("Go"),          QSourceHighliter::CodeGo},
         {QLatin1String("Html"),        QSourceHighliter::CodeXML},
         {QLatin1String("Ini"),         QSourceHighliter::CodeINI},
         {QLatin1String("Java"),        QSourceHighliter::CodeJava},
