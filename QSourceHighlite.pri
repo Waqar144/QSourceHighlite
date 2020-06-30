@@ -1,9 +1,9 @@
 QT += gui
 
-HEADERS += qsourcehighliter.h \
+HEADERS += $$PWD/qsourcehighliter.h \
            $$PWD/qsourcehighliterthemes.h \
-           languagedata.h
+           $$PWD/qlanguagedata.h
 
-SOURCES += qsourcehighliter.cpp \
+SOURCES += $$PWD/qqsourcehighliter.cpp \
     $$PWD/languagedata.cpp \
     $$PWD/qsourcehighliterthemes.cpp
