@@ -27,47 +27,47 @@ QSourceHighliter::QSourceHighliter(QTextDocument *doc)
     initFormats();
 }
 
+QSourceHighliter::QSourceHighliter(QTextDocument *doc, QSourceHighliter::Themes theme)
+    : QSyntaxHighlighter(doc),
+      _language(CodeC)
+{
+    setTheme(theme);
+}
+
 void QSourceHighliter::initFormats() {
     /****************************************
      * Formats for syntax highlighting
      ***************************************/
 
     QTextCharFormat format = QTextCharFormat();
-    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
-    _formats[Token::CodeBlock] = format;
 
+    _formats[Token::CodeBlock] = format;
     format = QTextCharFormat();
-    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+
     format.setForeground(QColor("#F92672"));
     _formats[Token::CodeKeyWord] = format;
-
     format = QTextCharFormat();
-    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+
     format.setForeground(QColor("#a39b4e"));
     _formats[Token::CodeString] = format;
-
     format = QTextCharFormat();
-    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+
     format.setForeground(QColor("#75715E"));
     _formats[Token::CodeComment] = format;
-
     format = QTextCharFormat();
-    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
+
     format.setForeground(QColor("#54aebf"));
     _formats[Token::CodeType] = format;
 
     format = QTextCharFormat();
-    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#db8744"));
     _formats[Token::CodeOther] = format;
 
     format = QTextCharFormat();
-    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#AE81FF"));
     _formats[Token::CodeNumLiteral] = format;
 
     format = QTextCharFormat();
-    format.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
     format.setForeground(QColor("#018a0f"));
     _formats[Token::CodeBuiltIn] = format;
 }

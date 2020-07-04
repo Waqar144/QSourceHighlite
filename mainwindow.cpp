@@ -33,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent)
     initThemesComboBox();
 
     //set highlighter
+    QFont f = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    ui->plainTextEdit->setFont(f);
     highlighter = new QSourceHighliter(ui->plainTextEdit->document());
 
     connect(ui->langComboBox,

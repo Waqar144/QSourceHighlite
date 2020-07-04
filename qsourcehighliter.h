@@ -21,11 +21,12 @@ namespace QSourceHighlite {
 class QSourceHighliter : public QSyntaxHighlighter
 {
 public:
-    explicit QSourceHighliter(QTextDocument *doc);
-
     enum Themes {
         Monokai = 1
     };
+
+    explicit QSourceHighliter(QTextDocument *doc);
+    QSourceHighliter(QTextDocument *doc, Themes theme);
 
     //languages
     /*********
