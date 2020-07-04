@@ -5,13 +5,11 @@
 
 namespace QSourceHighlite {
 
-class QSourceHighliterTheme
+namespace QSourceHighliterTheme
 {
-public:
-    static QHash<QSourceHighliter::Token, QTextCharFormat> theme(QSourceHighliter::Themes);
-private:
-    static QHash<QSourceHighliter::Token, QTextCharFormat> formats();
-    static QHash<QSourceHighliter::Token, QTextCharFormat> monokai();
-};
-}
+    QHash<QSourceHighliter::Token, QTextCharFormat> theme(QSourceHighliter::Themes);
+
+} // namespace QSourceHighliterTheme
+
+} // namespace QSourceHighlite
 #endif // QSOURCEHIGHLITERTHEMES_H

@@ -2,20 +2,11 @@
 
 namespace QSourceHighlite {
 
-QHash<QSourceHighliter::Token, QTextCharFormat>
-        QSourceHighliterTheme::theme(QSourceHighliter::Themes theme) {
-    switch (theme) {
-    case QSourceHighliter::Themes::Monokai:
-        return monokai();
-    }
-}
-
-QHash<QSourceHighliter::Token, QTextCharFormat> QSourceHighliterTheme::formats()
+static QHash<QSourceHighliter::Token, QTextCharFormat> formats()
 {
     QHash<QSourceHighliter::Token, QTextCharFormat> _formats;
 
     QTextCharFormat defaultFormat = QTextCharFormat();
-    defaultFormat.setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
 
     _formats[QSourceHighliter::Token::CodeBlock] = defaultFormat;
     _formats[QSourceHighliter::Token::CodeKeyWord] = defaultFormat;
@@ -29,7 +20,7 @@ QHash<QSourceHighliter::Token, QTextCharFormat> QSourceHighliterTheme::formats()
     return _formats;
 }
 
-QHash<QSourceHighliter::Token, QTextCharFormat> QSourceHighliterTheme::monokai()
+static QHash<QSourceHighliter::Token, QTextCharFormat> monokai()
 {
     QHash<QSourceHighliter::Token, QTextCharFormat> _formats = formats();
 
@@ -43,6 +34,14 @@ QHash<QSourceHighliter::Token, QTextCharFormat> QSourceHighliterTheme::monokai()
     _formats[QSourceHighliter::Token::CodeBuiltIn].setForeground(QColor(166, 226, 46));
 
     return _formats;
+}
+
+QHash<QSourceHighliter::Token, QTextCharFormat>
+        QSourceHighliterTheme::theme(QSourceHighliter::Themes theme) {
+    switch (theme) {
+    case QSourceHighliter::Themes::Monokai:
+        return monokai();
+    }
 }
 
 }
