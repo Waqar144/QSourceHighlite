@@ -57,7 +57,6 @@ static LanguageData cpp_other;
 void initCppData() {
     cpp_keywords = LanguageData{
         {('a'), QLatin1String("asm")},
-        {('a'), QLatin1String("auto")},
         {('b'), QLatin1String("break")},
         {('c'), QLatin1String("case")},
         {('c'), QLatin1String("catch")},
@@ -74,7 +73,6 @@ void initCppData() {
         {('g'), QLatin1String("goto")},
         {('i'), QLatin1String("if")},
         {('m'), QLatin1String("mutable")},
-        {('n'), QLatin1String("namespace")},
         {('n'), QLatin1String("new")},
         {('o'), QLatin1String("operator")},
         {('p'), QLatin1String("private")},
@@ -95,13 +93,13 @@ void initCppData() {
         {('t'), QLatin1String("throw")},
         {('t'), QLatin1String("try")},
         {('t'), QLatin1String("typedef")},
-        {('u'), QLatin1String("unsigned")},
         {('u'), QLatin1String("using")},
         {('v'), QLatin1String("volatile")},
         {('w'), QLatin1String("while")}
     };
 
     cpp_types = {
+        {('a'), QLatin1String("auto")},
         {('b'), QLatin1String("bool")},
         {('c'), QLatin1String("char")},
         {('c'), QLatin1String("class")},
@@ -110,6 +108,7 @@ void initCppData() {
         {('f'), QLatin1String("float")},
         {('i'), QLatin1String("int")},
         {('l'), QLatin1String("long")},
+        {('n'), QLatin1String("namespace")},
         {('Q'), QLatin1String("QHash")},
         {('Q'), QLatin1String("QList")},
         {('Q'), QLatin1String("QMap")},
@@ -119,11 +118,12 @@ void initCppData() {
         {('s'), QLatin1String("size_t")},
         {('s'), QLatin1String("ssize_t")},
         {('s'), QLatin1String("struct")},
-        {('u'), QLatin1String("union")},
         {('u'), QLatin1String("uint8_t")},
-        {('u'), QLatin1String("uint16_t")},
+        {('u'), QLatin1String("unsigned")},
         {('u'), QLatin1String("uint32_t")},
         {('u'), QLatin1String("uint64_t")},
+        {('u'), QLatin1String("uint16_t")},
+        {('u'), QLatin1String("union")},
         {('v'), QLatin1String("void")},
         {('w'), QLatin1String("wchar_t")}
     };
