@@ -75,7 +75,8 @@ public:
         CodeVex = 238,
         CodeVexComment = 239,
         CodeCMake = 240,
-        CodeMake = 242
+        CodeMake = 242,
+        CodeAsm = 244,
     };
     Q_ENUM(Language)
 
@@ -129,6 +130,7 @@ private:
     void ymlHighlighter(const QString &text);
     void xmlHighlighter(const QString &text);
     void makeHighlighter(const QString &text);
+    void asmHighlighter(const QString& text);
     void initFormats();
 
     QHash<Token, QTextCharFormat> _formats;

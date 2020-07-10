@@ -1,0 +1,55 @@
+val(int):                                # @val(int)
+        pushq   %rbp
+        movq    %rsp, %rbp
+        movl    %edi, -4(%rbp)
+        movl    $0, -8(%rbp)
+.LBB0_1:                                # =>This Inner Loop Header: Depth=1
+        cmpl    $3, -8(%rbp)
+        jge     .LBB0_4
+        movl    -4(%rbp), %eax
+        addl    $1, %eax
+        movl    %eax, -4(%rbp)
+        movl    -8(%rbp), %eax
+        addl    $1, %eax
+        movl    %eax, -8(%rbp)
+        jmp     .LBB0_1
+.LBB0_4:
+        movl    -4(%rbp), %eax
+        cltd
+        movl    $3, %ecx
+        idivl   %ecx
+        shll    $1, %eax
+        popq    %rbp
+        retq
+
+section .data
+string: db "hello, world\n"
+section .bss
+
+section text
+global main
+main:
+
+val(int):                                # @val(int)
+        push    rbp
+        mov     rbp, rsp
+        mov     dword ptr [rbp - 4], edi
+        mov     dword ptr [rbp - 8], 0
+.LBB0_1:                                # =>This Inner Loop Header: Depth=1
+        cmp     dword ptr [rbp - 8], 3
+        jge     .LBB0_4
+        mov     eax, dword ptr [rbp - 4]
+        add     eax, 1
+        mov     dword ptr [rbp - 4], eax
+        mov     eax, dword ptr [rbp - 8]
+        add     eax, 1
+        mov     dword ptr [rbp - 8], eax
+        jmp     .LBB0_1
+.LBB0_4:
+        mov     eax, dword ptr [rbp - 4]
+        cdq
+        mov     ecx, 3
+        idiv    ecx
+        shl     eax, 1
+        pop     rbp
+        ret
