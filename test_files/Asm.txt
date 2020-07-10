@@ -1,0 +1,31 @@
+section .data
+string: db "hello, world\n"
+section .bss
+
+section text
+global main
+main:
+
+val(int):                                # @val(int)
+        push    rbp
+        mov     rbp, rsp
+        mov     dword ptr [rbp - 4], edi
+        mov     dword ptr [rbp - 8], 0
+.LBB0_1:                                # =>This Inner Loop Header: Depth=1
+        cmp     dword ptr [rbp - 8], 3
+        jge     .LBB0_4
+        mov     eax, dword ptr [rbp - 4]
+        add     eax, 1
+        mov     dword ptr [rbp - 4], eax
+        mov     eax, dword ptr [rbp - 8]
+        add     eax, 1
+        mov     dword ptr [rbp - 8], eax
+        jmp     .LBB0_1
+.LBB0_4:
+        mov     eax, dword ptr [rbp - 4]
+        cdq
+        mov     ecx, 3
+        idiv    ecx
+        shl     eax, 1
+        pop     rbp
+        ret
