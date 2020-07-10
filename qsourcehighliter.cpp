@@ -114,6 +114,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     bool isCSS = false;
     bool isYAML = false;
     bool isMake = false;
+    bool isAsm = false;
 
     LanguageData keywords{},
                 others{},
@@ -209,8 +210,13 @@ void QSourceHighliter::highlightSyntax(const QString &text)
             loadMakeData(types, keywords, builtin, literals, others);
             comment = QLatin1Char('#');
             break;
-    default:
-        break;
+        case CodeAsm:
+            isAsm = true;
+            loadAsmData(types, keywords, builtin, literals, others);
+            comment = QLatin1Char('#');
+            break;
+        default:
+            break;
     }
 
     // keep the default code block format
@@ -371,6 +377,8 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     if (isCSS) cssHighlighter(text);
     if (isYAML) ymlHighlighter(text);
     if (isMake) makeHighlighter(text);
+    if (isAsm)
+        asmHighlighter(text);
 }
 
 /**
@@ -804,4 +812,11 @@ void QSourceHighliter::makeHighlighter(const QString &text)
     setFormat(0, colonPos, _formats[Token::CodeBuiltIn]);
 }
 
+void QSourceHighliter::asmHighlighter(const QString& text)
+{
+    int colonPos = text.indexOf(QLatin1Char(':'));
+    if (colonPos == -1)
+        return;
+    setFormat(0, colonPos, _formats[Token::CodeBuiltIn]);
+}
 }
