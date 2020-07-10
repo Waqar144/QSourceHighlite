@@ -501,6 +501,10 @@ int QSourceHighliter::highlightNumericLiterals(const QString &text, int i)
             if (currentBlockState() == CodeCSS)
                 isPreAllowed = true;
             break;
+        case '$':
+            if (currentBlockState() == CodeAsm)
+                isPreAllowed = true;
+            break;
         case '[':
         case '(':
         case '{':
