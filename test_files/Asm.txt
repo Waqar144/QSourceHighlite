@@ -21,6 +21,8 @@ val(int):                                # @val(int)
         shll    $1, %eax
         popq    %rbp
         retq
+        leal -4(%rip), $eax
+        movl Count::count_(%rip)
 
 section .data
 string: db "hello, world\n"
