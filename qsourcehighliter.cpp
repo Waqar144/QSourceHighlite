@@ -818,6 +818,29 @@ void QSourceHighliter::makeHighlighter(const QString &text)
 
 void QSourceHighliter::asmHighlighter(const QString& text)
 {
+    //highlight inline labels in instruction
+    static std::array<QString, 27> jumps = {
+        "call", "callq", "loop", "jmp", "je", "jne", "ja", "jb", "jg", "jge", "jae", "jl", "jle", "jbe", "jo", "jno", "jz", "jnz",
+        "js", "jns", "jcxz", "jecxz", "jrcxz", "loope", "loopne", "loopz", "loopnz",
+    };
+
+    auto format = _formats[Token::CodeBuiltIn];
+    format.setFontUnderline(true);
+
+    const QString trimmed = text.trimmed();
+    if (!trimmed.isEmpty() && (trimmed.at(0) == 'c' || trimmed.at(0) == 'j' || trimmed.at(0) == 'l')) {
+        for (int i = 0 ; i < 27; i++) {
+            if (trimmed.startsWith(jumps[i])) {
+                int j = 0;
+                while (text.at(j).isSpace()) j++;
+                j = j + jumps.at(i).length() + 1;
+                while (text.at(j).isSpace()) j++;
+                int len = text.length() - j;
+                setFormat(j, len, format);
+            }
+        }
+    }
+
     //label highlighting
     //examples:
     //L1:
@@ -838,9 +861,6 @@ void QSourceHighliter::asmHighlighter(const QString& text)
         colonPos = text.lastIndexOf(':', commentPos);
     }
 
-    auto format = _formats[Token::CodeBuiltIn];
-    format.setFontUnderline(true);
-
     if (colonPos >= text.length() - 1) {
         setFormat(0, colonPos, format);
     }
@@ -854,8 +874,7 @@ void QSourceHighliter::asmHighlighter(const QString& text)
         }
     }
 
-
-    if (!isLabel && i < text.length() && text.at(i) == '#')
+    if (!isLabel && i < text.length() && text.at(i) == QLatin1Char('#'))
         setFormat(0, colonPos, format);
 }
 }
