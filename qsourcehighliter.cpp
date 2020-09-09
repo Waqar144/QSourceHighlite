@@ -818,9 +818,44 @@ void QSourceHighliter::makeHighlighter(const QString &text)
 
 void QSourceHighliter::asmHighlighter(const QString& text)
 {
-    int colonPos = text.indexOf(QLatin1Char(':'));
+    //label highlighting
+    //examples:
+    //L1:
+    //LFB1:           # local func begin
+    //
+    //following e.gs are not a label
+    //mov %eax, Count::count(%rip)
+    //.string ": #%s"
+
+    //look for the last occurence of a colon
+    int colonPos = text.lastIndexOf(QLatin1Char(':'));
     if (colonPos == -1)
         return;
-    setFormat(0, colonPos, _formats[Token::CodeBuiltIn]);
+    //check if this colon is in a comment maybe?
+    bool isComment = text.lastIndexOf('#', colonPos) != -1;
+    if (isComment) {
+        int commentPos = text.lastIndexOf('#', colonPos);
+        colonPos = text.lastIndexOf(':', commentPos);
+    }
+
+    auto format = _formats[Token::CodeBuiltIn];
+    format.setFontUnderline(true);
+
+    if (colonPos >= text.length() - 1) {
+        setFormat(0, colonPos, format);
+    }
+
+    int i = 0;
+    bool isLabel = true;
+    for (i = colonPos + 1; i < text.length(); ++i) {
+        if (!text.at(i).isSpace()) {
+            isLabel = false;
+            break;
+        }
+    }
+
+
+    if (!isLabel && i < text.length() && text.at(i) == '#')
+        setFormat(0, colonPos, format);
 }
 }
