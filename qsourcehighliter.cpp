@@ -226,19 +226,21 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     // applying it to the whole block in the beginning
     setFormat(0, textLen, _formats[CodeBlock]);
 
-    auto applyCodeFormat = [this](int i, const LanguageData &data,
-                        const QString &text, const QTextCharFormat &fmt) -> int {
+    auto applyCodeFormat =
+        [this](int i, const LanguageData &data,
+               const QString &text, const QTextCharFormat &fmt) -> int {
         // check if we are at the beginning OR if this is the start of a word
-        // AND the current char is present in the data structure
-        if ( ( i == 0 || !text[i-1].isLetter()) && data.contains(text[i].toLatin1())) {
-            const QList<QLatin1String> wordList = data.values(text[i].toLatin1());
+        if (i == 0 || (!text.at(i - 1).isLetterOrNumber() &&
+                       text.at(i-1) != QLatin1Char('_'))) {
+            const auto wordList = data.values(text.at(i).toLatin1());
             for (const QLatin1String &word : wordList) {
-                if (word == text.midRef(i, word.size()) // we have a word match
-                        &&
-                        (i + word.size() == text.length() // check if we are at the end
-                         ||
-                         !text.at(i + word.size()).isLetter()) //OR if we have a complete word
-                        ) {
+                // we have a word match check
+                // 1. if we are at the end
+                // 2. if we have a complete word
+                if (word == text.midRef(i, word.size()) &&
+                    (i + word.size() == text.length() ||
+                     (!text.at(i + word.size()).isLetterOrNumber() &&
+                      text.at(i + word.size()) != QLatin1Char('_')))) {
                     setFormat(i, word.size(), fmt);
                     i += word.size();
                 }
