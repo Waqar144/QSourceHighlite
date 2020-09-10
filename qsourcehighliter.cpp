@@ -825,15 +825,17 @@ void QSourceHighliter::makeHighlighter(const QString &text)
  */
 void QSourceHighliter::highlightInlineAsmLabels(const QString &text)
 {
-    static std::array<QString, 27> jumps = {
+#define Q(s) QStringLiteral(s)
+    static const QString jumps[27] = {
         //0 - 19
-        "jmp", "je", "jne", "jz", "jnz", "ja", "jb", "jg", "jge", "jae", "jl", "jle",
-        "jbe", "jo", "jno", "js", "jns", "jcxz", "jecxz", "jrcxz",
+        Q("jmp"), Q("je"), Q("jne"), Q("jz"), Q("jnz"), Q("ja"), Q("jb"), Q("jg"), Q("jge"), Q("jae"), Q("jl"), Q("jle"),
+        Q("jbe"), Q("jo"), Q("jno"), Q("js"), Q("jns"), Q("jcxz"), Q("jecxz"), Q("jrcxz"),
         //20 - 24
-        "loop", "loope", "loopne", "loopz", "loopnz",
+        Q("loop"), Q("loope"), Q("loopne"), Q("loopz"), Q("loopnz"),
         //25 - 26
-        "call", "callq"
+        Q("call"), Q("callq")
     };
+#undef Q
 
     auto format = _formats[Token::CodeBuiltIn];
     format.setFontUnderline(true);
@@ -863,7 +865,7 @@ void QSourceHighliter::highlightInlineAsmLabels(const QString &text)
         if (trimmed.startsWith(jumps[i])) {
             int j = 0;
             skipSpaces(j);
-            j = j + jumps.at(i).length() + 1;
+            j = j + jumps[i].length() + 1;
             skipSpaces(j);
             int len = text.length() - j;
             setFormat(j, len, format);
