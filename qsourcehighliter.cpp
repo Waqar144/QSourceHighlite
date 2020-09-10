@@ -16,6 +16,7 @@
 #include "qsourcehighliterthemes.h"
 
 #include <QDebug>
+#include <algorithm>
 #include <QTextDocument>
 
 namespace QSourceHighlite {
@@ -816,31 +817,61 @@ void QSourceHighliter::makeHighlighter(const QString &text)
     setFormat(0, colonPos, _formats[Token::CodeBuiltIn]);
 }
 
-void QSourceHighliter::asmHighlighter(const QString& text)
+/**
+ * @brief highlight inline labels such as 'func()' in "call func()"
+ * @param text
+ */
+void QSourceHighliter::highlightInlineAsmLabels(const QString &text)
 {
-    //highlight inline labels in instruction
     static std::array<QString, 27> jumps = {
-        "call", "callq", "loop", "jmp", "je", "jne", "ja", "jb", "jg", "jge", "jae", "jl", "jle", "jbe", "jo", "jno", "jz", "jnz",
-        "js", "jns", "jcxz", "jecxz", "jrcxz", "loope", "loopne", "loopz", "loopnz",
+        //0 - 19
+        "jmp", "je", "jne", "jz", "jnz", "ja", "jb", "jg", "jge", "jae", "jl", "jle",
+        "jbe", "jo", "jno", "js", "jns", "jcxz", "jecxz", "jrcxz",
+        //20 - 24
+        "loop", "loope", "loopne", "loopz", "loopnz",
+        //25 - 26
+        "call", "callq"
     };
 
     auto format = _formats[Token::CodeBuiltIn];
     format.setFontUnderline(true);
 
     const QString trimmed = text.trimmed();
-    if (!trimmed.isEmpty() && (trimmed.at(0) == 'c' || trimmed.at(0) == 'j' || trimmed.at(0) == 'l')) {
-        for (int i = 0 ; i < 27; i++) {
-            if (trimmed.startsWith(jumps[i])) {
-                int j = 0;
-                while (text.at(j).isSpace()) j++;
-                j = j + jumps.at(i).length() + 1;
-                while (text.at(j).isSpace()) j++;
-                int len = text.length() - j;
-                setFormat(j, len, format);
-            }
-        }
+    int start = -1;
+    int end = -1;
+    char c{};
+    if (!trimmed.isEmpty())
+        c = trimmed.at(0).toLatin1();
+    if (c == 'j') {
+        start = 0; end = 20;
+    } else if (c == 'c') {
+        start = 25; end = 27;
+    } else if (c == 'l') {
+        start = 20; end = 25;
+    } else {
+        return;
     }
 
+    auto skipSpaces = [&text](int& j){
+        while (text.at(j).isSpace()) j++;
+        return j;
+    };
+
+    for (int i = start; i < end; ++i) {
+        if (trimmed.startsWith(jumps[i])) {
+            int j = 0;
+            skipSpaces(j);
+            j = j + jumps.at(i).length() + 1;
+            skipSpaces(j);
+            int len = text.length() - j;
+            setFormat(j, len, format);
+        }
+    }
+}
+
+void QSourceHighliter::asmHighlighter(const QString& text)
+{
+    highlightInlineAsmLabels(text);
     //label highlighting
     //examples:
     //L1:
@@ -860,6 +891,9 @@ void QSourceHighliter::asmHighlighter(const QString& text)
         int commentPos = text.lastIndexOf('#', colonPos);
         colonPos = text.lastIndexOf(':', commentPos);
     }
+
+    auto format = _formats[Token::CodeBuiltIn];
+    format.setFontUnderline(true);
 
     if (colonPos >= text.length() - 1) {
         setFormat(0, colonPos, format);

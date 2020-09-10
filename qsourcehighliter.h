@@ -130,6 +130,7 @@ private:
     void ymlHighlighter(const QString &text);
     void xmlHighlighter(const QString &text);
     void makeHighlighter(const QString &text);
+    void highlightInlineAsmLabels(const QString& text);
     void asmHighlighter(const QString& text);
     void initFormats();
 
