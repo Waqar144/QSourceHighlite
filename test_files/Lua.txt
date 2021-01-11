@@ -1,0 +1,62 @@
+
+require('module')
+
+-- Meta class
+TankClass = {
+    damage = 0
+}
+TankClass_mt = { __index = TankClass }
+
+function TankClass:new()
+    local instance = {}
+    setmetatable(instance, TankClass_mt)
+    instance.damage = 123
+    return instance
+end
+
+
+-- single line comment
+function Hello()
+
+   local maybe = false
+   local foo = 123
+   local english = 'hello'
+   local french  = 'bonjour'
+   local bavarian = 'servus'
+
+   if (foo == 123) then
+      print(english)
+   elseif (foo == 321) then
+      print(french)
+   else
+      print(bavarian)
+   end
+
+   if (foo == 123 and foo == 321) then
+      return
+   end
+end
+
+--[[ this comment can
+span multiple lines
+--]]
+
+-- call Hello function
+Hello()
+
+
+-- for loop
+for i = 0,10,1
+do
+   print(i)
+end
+
+-- while loop
+local i=0
+while (i < 5)
+do
+  print(i)
+  i = i + 1
+end
+
+

@@ -80,6 +80,7 @@ void MainWindow::initLangsEnum()
         { QLatin1String("Java"), QSourceHighliter::CodeJava },
         { QLatin1String("Javascript"), QSourceHighliter::CodeJava },
         { QLatin1String("Json"), QSourceHighliter::CodeJSON },
+        { QLatin1String("Lua"), QSourceHighliter::CodeLua },
         { QLatin1String("Make"), QSourceHighliter::CodeMake },
         { QLatin1String("Php"), QSourceHighliter::CodePHP },
         { QLatin1String("Python"), QSourceHighliter::CodePython },
@@ -113,6 +114,7 @@ void MainWindow::initLangsComboBox() {
     ui->langComboBox->addItem("Ini");
     ui->langComboBox->addItem("Javascript");
     ui->langComboBox->addItem("Java");
+    ui->langComboBox->addItem("Lua");
     ui->langComboBox->addItem("Make");
     ui->langComboBox->addItem("Php");
     ui->langComboBox->addItem("Python");
