@@ -124,6 +124,10 @@ void QSourceHighliter::highlightSyntax(const QString &text)
                 literals{};
 
     switch (currentBlockState()) {
+        case CodeLua :
+        case CodeLuaComment :
+            loadLuaData(types, keywords, builtin, literals, others);
+            break;
         case CodeCpp :
         case CodeCppComment :
             loadCppData(types, keywords, builtin, literals, others);
@@ -380,8 +384,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     if (isCSS) cssHighlighter(text);
     if (isYAML) ymlHighlighter(text);
     if (isMake) makeHighlighter(text);
-    if (isAsm)
-        asmHighlighter(text);
+    if (isAsm)  asmHighlighter(text);
 }
 
 /**

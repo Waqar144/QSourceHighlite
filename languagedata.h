@@ -24,6 +24,15 @@ namespace QSourceHighlite {
 using LanguageData = QMultiHash<char, QLatin1String>;
 
 /**********************************************************/
+/* LuaData ************************************************/
+/**********************************************************/
+void loadLuaData(LanguageData &typess,
+                 LanguageData &keywordss,
+                 LanguageData &builtins,
+                 LanguageData &literalss,
+                 LanguageData &others);
+
+/**********************************************************/
 /* C/C++ Data *********************************************/
 /**********************************************************/
 void loadCppData(LanguageData &typess,
