@@ -26,6 +26,10 @@
 
 #include <QSyntaxHighlighter>
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QStringView>
+#endif
+
 namespace QSourceHighlite {
 
 class QSourceHighliter : public QSyntaxHighlighter
@@ -145,6 +149,18 @@ private:
     void highlightInlineAsmLabels(const QString& text);
     void asmHighlighter(const QString& text);
     void initFormats();
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    static inline QStringView strMidRef(const QString& str, qsizetype position, qsizetype n = -1)
+    {
+        return QStringView(str).mid(position, n);
+    }
+#else
+    static inline QStringRef strMidRef(const QString& str, int position, int n = -1)
+    {
+        return str.midRef(position, n);
+    }
+#endif
 
     QHash<Token, QTextCharFormat> _formats;
     Language _language;

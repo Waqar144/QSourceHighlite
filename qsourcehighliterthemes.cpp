@@ -64,6 +64,8 @@ QHash<QSourceHighliter::Token, QTextCharFormat>
     switch (theme) {
     case QSourceHighliter::Themes::Monokai:
         return monokai();
+    default:
+        return {};
     }
 }
 
