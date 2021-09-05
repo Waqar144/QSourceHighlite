@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     highlighter = new QSourceHighliter(ui->plainTextEdit->document());
 
     connect(ui->langComboBox,
-            static_cast<void (QComboBox::*) (const QString&)>(&QComboBox::currentIndexChanged),
+            static_cast<void (QComboBox::*) (const QString&)>(&QComboBox::currentTextChanged),
             this, &MainWindow::languageChanged);
     connect(ui->themeComboBox,
             static_cast<void (QComboBox::*) (int)>(&QComboBox::currentIndexChanged),

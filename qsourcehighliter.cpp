@@ -251,7 +251,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
                 // we have a word match check
                 // 1. if we are at the end
                 // 2. if we have a complete word
-                if (word == text.midRef(i, word.size()) &&
+                if (word == strMidRef(text, i, word.size()) &&
                     (i + word.size() == text.length() ||
                      (!text.at(i + word.size()).isLetterOrNumber() &&
                       text.at(i + word.size()) != QLatin1Char('_')))) {
@@ -366,7 +366,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
         if (( i == 0 || !text.at(i-1).isLetter()) && others.contains(text[i].toLatin1())) {
             const QList<QLatin1String> wordList = others.values(text[i].toLatin1());
             for(const QLatin1String &word : wordList) {
-                if (word == text.midRef(i, word.size()) // we have a word match
+                if (word == strMidRef(text, i, word.size()) // we have a word match
                         &&
                         (i + word.size() == text.length() // check if we are at the end
                          ||
@@ -679,8 +679,8 @@ void QSourceHighliter::ymlHighlighter(const QString &text) {
 
         //underlined links
         if (text.at(i) == QLatin1Char('h')) {
-            if (text.midRef(i, 5) == QLatin1String("https") ||
-                    text.midRef(i, 4) == QLatin1String("http")) {
+            if (strMidRef(text, i, 5) == QLatin1String("https") ||
+                    strMidRef(text, i, 4) == QLatin1String("http")) {
                 int space = text.indexOf(QChar(' '), i);
                 if (space == -1) space = textLen;
                 QTextCharFormat f = _formats[CodeString];
@@ -710,7 +710,7 @@ void QSourceHighliter::cssHighlighter(const QString &text)
             setFormat(i, space - i, _formats[CodeKeyWord]);
             i = space;
         } else if (text[i] == QLatin1Char('c')) {
-            if (text.midRef(i, 5) == QLatin1String("color")) {
+            if (strMidRef(text, i, 5) == QLatin1String("color")) {
                 i += 5;
                 int colon = text.indexOf(QLatin1Char(':'), i);
                 if (colon < 0) continue;
@@ -731,9 +731,9 @@ void QSourceHighliter::cssHighlighter(const QString &text)
                     int gPos = text.indexOf(QLatin1Char(','), rPos+1);
                     int bPos = text.indexOf(QLatin1Char(')'), gPos);
                     if (rPos > -1 && gPos > -1 && bPos > -1) {
-                        const QStringRef r = text.midRef(t+1, rPos - (t+1));
-                        const QStringRef g = text.midRef(rPos+1, gPos - (rPos + 1));
-                        const QStringRef b = text.midRef(gPos+1, bPos - (gPos+1));
+                        const auto r = strMidRef(text, t+1, rPos - (t+1));
+                        const auto g = strMidRef(text, rPos+1, gPos - (rPos + 1));
+                        const auto b = strMidRef(text, gPos+1, bPos - (gPos+1));
                         c.setRgb(r.toInt(), g.toInt(), b.toInt());
                     } else {
                         c = _formats[CodeBlock].background().color();

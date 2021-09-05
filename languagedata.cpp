@@ -4242,6 +4242,7 @@ void loadMakeData(QMultiHash<char, QLatin1String> &types, QMultiHash<char, QLati
 
 void loadAsmData(QMultiHash<char, QLatin1String>& types, QMultiHash<char, QLatin1String>& keywords, QMultiHash<char, QLatin1String>& builtin, QMultiHash<char, QLatin1String>& literals, QMultiHash<char, QLatin1String>& other)
 {
+    Q_UNUSED(literals);
     types = {
         { 'i', QLatin1String("ip") },
         { 'e', QLatin1String("eip") },
