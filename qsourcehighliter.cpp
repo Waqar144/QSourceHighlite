@@ -126,6 +126,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
     bool isYAML = false;
     bool isMake = false;
     bool isAsm = false;
+    bool isSQL = false;
 
     LanguageData keywords{},
                 others{},
@@ -187,6 +188,7 @@ void QSourceHighliter::highlightSyntax(const QString &text)
             loadVData(types, keywords, builtin, literals, others);
             break;
         case CodeSQL :
+            isSQL = true;
             loadSQLData(types, keywords, builtin, literals, others);
             break;
         case CodeJSON :
@@ -312,6 +314,13 @@ void QSourceHighliter::highlightSyntax(const QString &text)
                             i = next;
                             if (i >= textLen) return;
                         }
+                    }
+                }
+            } else if (isSQL && comment.isNull() && text[i] == QLatin1Char('-')) {
+                if((i+1) < textLen){
+                    if(text[i+1] == QLatin1Char('-')) {
+                        setFormat(i, textLen, formatComment);
+                        return;
                     }
                 }
             } else if (text[i] == comment) {
