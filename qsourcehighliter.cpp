@@ -292,7 +292,8 @@ void QSourceHighliter::highlightSyntax(const QString &text)
                         return;
                     } else if(text[i+1] == QLatin1Char('*')) {
                         Comment:
-                        int next = text.indexOf(QLatin1String("*/"));
+                        //find a comment end after current position.
+                        int next = text.indexOf(QLatin1String("*/"),i);
                         if (next == -1) {
                             //we didn't find a comment end.
                             //Check if we are already in a comment block
