@@ -6321,4 +6321,108 @@ void loadAsmData(QMultiHash<char, QLatin1String>& types, QMultiHash<char, QLatin
     };
 }
 
+/********************************************************/
+/***   Rhai DATA      ***********************************/
+/********************************************************/
+static bool rhaiDataInitialized = false;
+static LanguageData rhai_keywords;
+static LanguageData rhai_types;
+static LanguageData rhai_literals;
+static LanguageData rhai_builtin;
+static LanguageData rhai_other;
+void initRhaiData() {
+rhai_keywords = {
+    {('a'), QLatin1String("as")},
+    {('a'), QLatin1String("async")},
+    {('a'), QLatin1String("await")},
+    {('b'), QLatin1String("break")},
+    {('c'), QLatin1String("case")},
+    {('c'), QLatin1String("catch")},
+    {('c'), QLatin1String("const")},
+    {('c'), QLatin1String("continue")},
+    {('d'), QLatin1String("default")},
+    {('d'), QLatin1String("do")},
+    {('e'), QLatin1String("else")},
+    {('e'), QLatin1String("export")},
+    {('f'), QLatin1String("fn")},
+    {('f'), QLatin1String("for")},
+    {('g'), QLatin1String("global")},
+    {('g'), QLatin1String("go")},
+    {('g'), QLatin1String("goto")},
+    {('i'), QLatin1String("if")},
+    {('i'), QLatin1String("import")},
+    {('i'), QLatin1String("in")},
+    {('i'), QLatin1String("is")},
+    {('l'), QLatin1String("let")},
+    {('l'), QLatin1String("loop")},
+    {('m'), QLatin1String("match")},
+    {('m'), QLatin1String("module")},
+    {('n'), QLatin1String("new")},
+    {('n'), QLatin1String("nil")},
+    {('n'), QLatin1String("null")},
+    {('p'), QLatin1String("package")},
+    {('p'), QLatin1String("private")},
+    {('p'), QLatin1String("protected")},
+    {('p'), QLatin1String("public")},
+    {('r'), QLatin1String("return")},
+    {('s'), QLatin1String("spawn")},
+    {('s'), QLatin1String("static")},
+    {('s'), QLatin1String("super")},
+    {('s'), QLatin1String("switch")},
+    {('s'), QLatin1String("sync")},
+    {('t'), QLatin1String("this")},
+    {('t'), QLatin1String("thread")},
+    {('t'), QLatin1String("throw")},
+    {('t'), QLatin1String("try")},
+    {('u'), QLatin1String("until")},
+    {('u'), QLatin1String("use")},
+    {('v'), QLatin1String("void")},
+    {('w'), QLatin1String("while")},
+    {('w'), QLatin1String("with")},
+    {('y'), QLatin1String("yield")},
+};
+
+rhai_types = {
+
+};
+
+rhai_literals = {
+    {('f'), QLatin1String("false")},
+    {('t'), QLatin1String("true")}
+};
+
+rhai_builtin = {
+    {('c'), QLatin1String("call")},
+    {('c'), QLatin1String("curry")},
+    {('d'), QLatin1String("debug")},
+    {('e'), QLatin1String("eval")},
+    {('F'), QLatin1String("Fn")},
+    {('i'), QLatin1String("is_def_fn")},
+    {('i'), QLatin1String("is_def_var")},
+    {('i'), QLatin1String("is_shared")},
+    {('p'), QLatin1String("print")},
+    {('t'), QLatin1String("type_of")},
+
+};
+
+rhai_other = {
+
+};
+}
+void loadRhaiData(LanguageData &types,
+             LanguageData &keywords,
+             LanguageData &builtin,
+             LanguageData &literals,
+             LanguageData &other) {
+    if (!rhaiDataInitialized) {
+        initRhaiData();
+        rhaiDataInitialized = true;
+    }
+    types = rhai_types;
+    keywords = rhai_keywords;
+    builtin = rhai_builtin;
+    literals = rhai_literals;
+    other = rhai_other;
+}
+
 }

@@ -232,6 +232,10 @@ void QSourceHighliter::highlightSyntax(const QString &text)
             loadAsmData(types, keywords, builtin, literals, others);
             comment = QLatin1Char('#');
             break;
+        case CodeRhai :
+        case CodeRhaiComment :
+            loadRhaiData(types, keywords, builtin, literals, others);
+            break;
         default:
             break;
     }

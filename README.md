@@ -39,6 +39,7 @@ Currently the following languages are supported (more being added):
 - PHP
 - Python
 - QML
+- Rhai
 - Rust
 - SQL
 - Typescript
