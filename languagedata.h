@@ -218,5 +218,14 @@ void loadAsmData(QMultiHash<char, QLatin1String>& types,
     QMultiHash<char, QLatin1String>& builtin,
     QMultiHash<char, QLatin1String>& literals,
     QMultiHash<char, QLatin1String>& other);
+
+/********************************************************/
+/***   Rhai DATA      ***********************************/
+/********************************************************/
+void loadRhaiData(LanguageData &types,
+                  LanguageData &keywords,
+                  LanguageData &builtin,
+                  LanguageData &literals,
+                  LanguageData &other);
 }
 #endif

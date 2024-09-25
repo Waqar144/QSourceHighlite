@@ -85,6 +85,7 @@ void MainWindow::initLangsEnum()
         { QLatin1String("Php"), QSourceHighliter::CodePHP },
         { QLatin1String("Python"), QSourceHighliter::CodePython },
         { QLatin1String("Qml"), QSourceHighliter::CodeQML },
+        { QLatin1String("Rhai"), QSourceHighliter::CodeRhai },
         { QLatin1String("Rust"), QSourceHighliter::CodeRust },
         { QLatin1String("Sql"), QSourceHighliter::CodeSQL },
         { QLatin1String("Typescript"), QSourceHighliter::CodeTypeScript },

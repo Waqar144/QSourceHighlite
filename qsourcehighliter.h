@@ -92,7 +92,9 @@ public:
         CodeMake = 242,
         CodeAsm = 244,
         CodeLua = 246,
-        CodeLuaComment = 247
+        CodeLuaComment = 247,
+        CodeRhai = 248,
+        CodeRhaiComment = 249
     };
     Q_ENUM(Language)
 
